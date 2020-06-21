@@ -1,38 +1,40 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { registerRequest } from "../actions";
-import Header from '../components/Header';
-import '../assets/styles/components/Register.scss';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { registerUser } from "../actions";
+import Header from "../components/Header";
+import "../assets/styles/components/Register.scss";
 
-const Register = props => {
+const Register = (props) => {
   const [form, setValues] = useState({
-    email: '',
-    id: '',
-    name: '',
-    password: '',
+    email: "",
+    id: "",
+    name: "",
+    password: "",
   });
 
-  const updateInput = event => {
+  const updateInput = (event) => {
     setValues({
       ...form,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    props.registerRequest(form);
-    props.history.push('/register');
-  }
+    props.registerUser(form, "/login");
+  };
   return (
     <>
       <Header isRegister />
       <section className="register">
         <section className="register__container">
           <h2>Regístrate</h2>
-          <form className="register__container--form" onSubmit={handleSubmit}>
+          <form
+            className="register__container--form"
+            onSubmit={handleSubmit}
+          >
             <input
               name="name"
               className="input"
@@ -54,23 +56,31 @@ const Register = props => {
               placeholder="Contraseña"
               onChange={updateInput}
             />
-            <button className="button" type="button">Registrarme</button>
+            <button className="button" type="submit">
+              Registrarme
+            </button>
           </form>
-          <Link to="/login" className="register__container--login">
+          <Link
+            to="/login"
+            className="register__container--login"
+          >
             Iniciar sesión
           </Link>
         </section>
       </section>
     </>
   );
-}
+};
 
 const mapDispatchToProps = {
-  registerRequest,
+  registerUser,
 };
 
 Register.propTypes = {
-  registerRequest: PropTypes.func,
+  registerUser: PropTypes.func,
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Register);
